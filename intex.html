@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Умен генератор PRO+</title>
+<style>
+  :root{--bg1:#eef2ff;--bg2:#f8fafc;--card:#ffffff;--text:#1f2937;--muted:#6b7280;--line:#dbe3f0;--primary:#4f46e5;--primary-dark:#3730a3;--soft:#e0e7ff;--success:#22c55e;--success-dark:#15803d;--shadow:0 12px 32px rgba(15,23,42,.10)}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',Arial,sans-serif;color:var(--text);background:linear-gradient(135deg,var(--bg1),var(--bg2));padding:20px}
+  .container{max-width:1150px;margin:0 auto;background:var(--card);border-radius:22px;box-shadow:var(--shadow);overflow:hidden}
+  .hero{padding:28px 28px 18px;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff}
+  .hero h1{margin:0 0 8px;font-size:34px}
+  .hero p{margin:0;max-width:760px;line-height:1.6;opacity:.95}
+  .content{padding:24px}
+  .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+  label{display:block;font-weight:700;margin-bottom:6px;color:#334155}
+  select,input,textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:12px 13px;font-size:15px;background:#fff;color:var(--text)}
+  textarea{min-height:90px;resize:vertical}
+  .tabs{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 12px}
+  .tab{border:none;border-radius:999px;padding:10px 16px;background:#eef2ff;color:#4338ca;font-weight:700;cursor:pointer}
+  .tab.active{background:var(--primary);color:#fff}
+  .row{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;margin-bottom:10px}
+  button{border:none;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer;transition:transform .18s ease, background .18s ease}
+  button:hover{transform:translateY(-1px)}
+  .primary{background:var(--primary);color:#fff}.primary:hover{background:var(--primary-dark)}
+  .secondary{background:var(--soft);color:#312e81}
+  .success{background:var(--success);color:#fff}.success:hover{background:var(--success-dark)}
+  .panel{margin-top:14px;border:1px solid var(--line);background:#fbfcff;border-radius:16px;padding:20px;line-height:1.65}
+  .hint,.footer-note{color:var(--muted);font-size:13px}
+  .variant{border:1px solid var(--line);border-radius:16px;background:#fff;padding:16px;margin-bottom:14px}
+  .variant h2{margin-top:0;color:var(--primary);font-size:22px}
+  h3{margin-bottom:8px}ul,ol{padding-left:22px}
+  @media (max-width:860px){.grid,.grid-3{grid-template-columns:1fr}.hero h1{font-size:28px}}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="hero">
+    <h1>Умен генератор PRO+</h1>
+    <p>Интелигентен помощник за учителя, който създава 3 варианта на урок, тест, проектна работа и работен лист според предмета, класа, типа урок и нивото на класа.</p>
+  </div>
+  <div class="content">
+    <div class="grid">
+      <div>
+        <label for="subject">Предмет</label>
+        <select id="subject">
+          <option disabled selected>Избери предмет</option>
+          <option>Български език и литература</option>
+          <option>Английски език</option>
+          <option>Математика</option>
+          <option>Компютърно моделиране и информационни технологии</option>
+          <option>История и цивилизации</option>
+          <option>География и икономика</option>
+          <option>Човекът и природата</option>
+          <option>Физика и астрономия</option>
+          <option>Химия и опазване на околната среда</option>
+          <option>Биология и здравно образование</option>
+          <option>Музика</option>
+          <option>Изобразително изкуство</option>
+          <option>Технологии и предприемачество</option>
+          <option>Физическо възпитание и спорт</option>
+          <option>Религия</option>
+        </select>
+      </div>
+      <div>
+        <label for="grade">Клас</label>
+        <select id="grade">
+          <option disabled selected>Избери клас</option>
+          <option>1 клас</option><option>2 клас</option><option>3 клас</option><option>4 клас</option>
+          <option>5 клас</option><option>6 клас</option><option>7 клас</option>
+        </select>
+      </div>
+    </div>
+    <div class="grid">
+      <div>
+        <label for="topic">Тема на урока</label>
+        <input id="topic" placeholder="Напр. Проценти / Светлина и отражение / Климат на Европа" />
+      </div>
+      <div>
+        <label for="lessonType">Тип на урока</label>
+        <select id="lessonType">
+          <option>Нова тема</option>
+          <option>Затвърдяване</option>
+          <option>Упражнение</option>
+          <option>Преговор</option>
+          <option>Контрол и оценка</option>
+          <option>Комбиниран урок</option>
+        </select>
+      </div>
+    </div>
+    <div class="grid-3">
+      <div>
+        <label for="goal">Основна цел</label>
+        <input id="goal" placeholder="Какво трябва да постигнат учениците?" />
+      </div>
+      <div>
+        <label for="level">Ниво на класа</label>
+        <select id="level">
+          <option>Ниско</option><option>Средно</option><option>Високо</option><option>Смесено</option>
+        </select>
+      </div>
+      <div>
+        <label for="duration">Продължителност</label>
+        <select id="duration">
+          <option>40 минути</option><option selected>45 минути</option><option>60 минути</option>
+        </select>
+      </div>
+    </div>
+    <div>
+      <label for="notes">Бележки</label>
+      <textarea id="notes" placeholder="Напр. включи повече практика; има ученици със затруднения; искам работа по групи..."></textarea>
+      <div class="hint">Добави кратки указания и приложението ще включи по-подходящи насоки.</div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab(event,'lesson')">3 варианта на урок</button>
+      <button class="tab" onclick="switchTab(event,'test')">Тест</button>
+      <button class="tab" onclick="switchTab(event,'project')">Проект</button>
+      <button class="tab" onclick="switchTab(event,'worksheet')">Работен лист</button>
+    </div>
+
+    <div class="row">
+      <button class="primary" onclick="smartGenerate()">Генерирай</button>
+      <button class="secondary" onclick="copyOutput()">Копирай текста</button>
+      <button class="success" onclick="downloadWord()">Изтегли Word</button>
+    </div>
+
+    <div class="panel" id="output">Избери предмет, клас и тема, после натисни „Генерирай“.</div>
+    <div class="footer-note">Създадено за бърза и практична подкрепа на учителя в реална училищна среда.</div>
+  </div>
+</div>
+
+<script>
+let currentTab = "lesson";
+
+function switchTab(event, tab){
+  currentTab = tab;
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  event.currentTarget.classList.add("active");
+}
+
+function getVals(){
+  return {
+    subject: document.getElementById("subject").value || "",
+    grade: document.getElementById("grade").value || "",
+    topic: document.getElementById("topic").value.trim() || "непосочена тема",
+    lessonType: document.getElementById("lessonType").value || "",
+    goal: document.getElementById("goal").value.trim() || "усвояване и приложение на знания по темата",
+    level: document.getElementById("level").value || "",
+    duration: document.getElementById("duration").value || "",
+    notes: document.getElementById("notes").value.trim()
+  };
+}
+
+function subjectPrompt(){
+  const {subject, grade} = getVals();
+  if(!subject || !grade){
+    document.getElementById("output").innerHTML = "Моля, избери предмет и клас.";
+    return false;
+  }
+  return true;
+}
+
+function getLevelSupport(level) {
+  const map = {
+    "Ниско":"Предвидени са кратки инструкции, ясни примери и повече насочване от учителя.",
+    "Средно":"Предвидени са задачи със средна трудност и кратка самостоятелна работа.",
+    "Високо":"Предвидени са по-сложни задачи, аргументация и самостоятелност.",
+    "Смесено":"Предвидени са диференцирани задачи според възможностите на учениците."
+  };
+  return map[level] || "";
+}
+
+function getGradeSupport(grade) {
+  const map = {
+    "1 клас":"с кратки и достъпни формулировки",
+    "2 клас":"с ясни и кратки указания",
+    "3 клас":"с повече визуална опора и нагледност",
+    "4 клас":"с постепенно надграждане на знанията",
+    "5 клас":"с базови въпроси и ясни практически примери",
+    "6 клас":"с умерена сложност и приложение в познати ситуации",
+    "7 клас":"с по-голяма самостоятелност, аргументация и анализ"
+  };
+  return map[grade] || "";
+}
+
+function getBaseContent(subject, topic){
+  const bases = {
+    "Математика":{
+      entryCheck:"Кратка устна проверка върху предходни знания, свързани с темата.",
+      motivation:`Учителят задава въпрос: „Къде в живота срещаме ${topic}?“`,
+      explanation:"Темата се въвежда чрез пример, решен стъпка по стъпка.",
+      questions:[`Какво знаете за ${topic}?`,"Коя е първата стъпка при решаване?","Може ли задачата да се реши по друг начин?"],
+      tasks:["Решете примерна задача заедно с учителя.","Решете 2 самостоятелни задачи.","Обсъдете често срещани грешки."],
+      practical:"Работа по двойки: съставяне на текстова задача по темата.",
+      summary:"Обобщаване на основните стъпки и модели за решение.",
+      homework:["Решете 3 задачи от учебника.","Съставете 1 собствена задача.","Посочете приложение на темата в практиката."],
+      results:["Учениците разбират основния начин на решение.","Учениците решават задачи по темата.","Учениците прилагат знанието в нова ситуация."]
+    },
+    "Български език и литература":{
+      entryCheck:"Кратко припомняне на правило, понятие или съдържание от предходния урок.",
+      motivation:`Учителят задава въпрос: „Защо е важно да разбираме ${topic}?“`,
+      explanation:"Темата се представя чрез текст, пример или езиков материал.",
+      questions:[`Какво знаете за ${topic}?`,"Кое е най-важното правило?","Как ще приложим това в пример?"],
+      tasks:["Прочетете кратък текст.","Открийте езикови особености.","Съставете собствен пример."],
+      practical:"Работа по групи: редактиране или създаване на кратък текст.",
+      summary:"Обобщение на основните правила и езикови особености.",
+      homework:["Решете упражнение от учебника.","Съставете 5 изречения по темата.","Подгответе кратък писмен отговор."],
+      results:["Учениците разпознават основните понятия.","Учениците прилагат правилото в практика.","Учениците се изразяват по-уверено."]
+    },
+    "Английски език":{
+      entryCheck:"Кратко припомняне на думи и изрази от предходния урок.",
+      motivation:`Учителят пита: „When can we use ${topic} in real life?“`,
+      explanation:"Темата се представя чрез примерни изречения, кратък диалог и модел.",
+      questions:[`What do you know about ${topic}?`,"Can you give an example?","When can we use it?"],
+      tasks:["Повторете новите думи.","Попълнете изречения.","Съставете кратък диалог."],
+      practical:"Работа по двойки: мини диалог или ролева игра.",
+      summary:"Кратко обобщение на новите думи и езикови модели.",
+      homework:["Научете новите думи.","Съставете 5 изречения.","Подгответе кратък диалог."],
+      results:["Учениците използват нови думи и изрази.","Учениците съставят кратки изречения.","Учениците участват в устна комуникация."]
+    }
+  };
+  return bases[subject] || {
+    entryCheck:"Кратко припомняне на знания от предходния урок.",
+    motivation:`Учителят задава въвеждащ въпрос по темата „${topic}“.`,
+    explanation:"Темата се представя чрез пример и кратко обсъждане.",
+    questions:[`Какво знаете за ${topic}?`,"Как можем да приложим новото знание?","Какво е най-важното?"],
+    tasks:["Кратка задача по темата.","Работа по двойки.","Самостоятелно упражнение."],
+    practical:"Практическа дейност по темата.",
+    summary:"Кратко обобщение на наученото.",
+    homework:["Кратка задача от учебника.","Приложна задача.","Кратко обобщение."],
+    results:["Учениците разбират основната тема.","Учениците прилагат новото знание.","Учениците участват активно."]
+  };
+}
+
+function buildLessonVariant(type){
+  const meta = getVals();
+  let data = JSON.parse(JSON.stringify(getBaseContent(meta.subject, meta.topic)));
+
+  if(meta.lessonType === "Нова тема"){
+    data.explanation += " Акцентът е върху въвеждането на новите знания.";
+    data.tasks.unshift("Слушане, наблюдение и участие при представянето на новото знание.");
+  } else if(meta.lessonType === "Упражнение"){
+    data.explanation = "Кратко припомняне на теорията, след което основният акцент е върху упражненията.";
+    data.tasks.push("Самостоятелна работа по допълнителни задачи.");
+  } else if(meta.lessonType === "Преговор"){
+    data.entryCheck = "Бърза проверка на знания от няколко предходни урока.";
+    data.questions.push("Кое е най-важното, което трябва да запомним?");
+    data.tasks.push("Попълване на обобщителна схема или таблица.");
+    data.summary = "Систематизиране на основните знания.";
+  } else if(meta.lessonType === "Контрол и оценка"){
+    data.entryCheck = "Организационен момент и кратки указания за самостоятелна работа.";
+    data.motivation = "Учениците се насочват към спокойна и самостоятелна работа.";
+    data.explanation = "Учителят представя критериите и указанията за работа.";
+    data.questions = ["Разбрани ли са указанията?","Как ще организирате времето си?"];
+    data.tasks = ["Самостоятелно решаване на задачи.","Следване на указанията и критериите.","Проверка на отговорите при оставащо време."];
+    data.practical = "Самостоятелна работа по проверочни задачи.";
+    data.homework = ["Коригирайте грешките след обратната връзка.","Преговорете затрудняващите моменти."];
+  }
+
+  if(meta.grade === "5 клас"){
+    data.questions = data.questions.map(q => q + " Обяснете с кратък пример.");
+    data.tasks.push("Използвайте опора от пример или схема.");
+  } else if(meta.grade === "6 клас"){
+    data.tasks.push("Обсъдете решението с партньор.");
+    data.questions.push("Какво ново научихте днес?");
+  } else if(meta.grade === "7 клас"){
+    data.questions.push("Можете ли да аргументирате отговора си?");
+    data.tasks.push("Решете задача с по-висока трудност.");
+    data.homework.push("Подгответе кратко самостоятелно обяснение.");
+  }
+
+  if(type === 1){
+    data.variantTitle = "Вариант 1 – Стандартен урок";
+    data.variantInfo = "Балансиран вариант с ясна структура и последователност.";
+  } else if(type === 2){
+    data.variantTitle = "Вариант 2 – Интерактивен урок";
+    data.variantInfo = "Повече въпроси, дискусия и работа в екип.";
+    data.questions.push("Какво мислите по този въпрос?");
+    data.tasks.unshift("Работа по двойки или в малки групи.");
+    data.practical = "Интерактивна задача, екипна работа или кратка дискусия по темата.";
+  } else {
+    data.variantTitle = "Вариант 3 – Практически урок";
+    data.variantInfo = "Повече самостоятелност, приложение и практика.";
+    data.tasks.unshift("Самостоятелна практическа задача по темата.");
+    data.tasks.push("Решаване на приложен казус или ситуация.");
+    data.practical = "Практическа задача, мини проект или приложение в реален контекст.";
+  }
+  return {meta, data};
+}
+
+function renderLessonVariant(obj){
+  const {meta, data} = obj;
+  return `<div class="variant">
+    <h2>${data.variantTitle}</h2>
+    <p><i>${data.variantInfo}</i></p>
+    <p><b>Предмет:</b> ${meta.subject}</p>
+    <p><b>Клас:</b> ${meta.grade}</p>
+    <p><b>Тема:</b> ${meta.topic}</p>
+    <p><b>Тип урок:</b> ${meta.lessonType}</p>
+    <p><b>Основна цел:</b> ${meta.goal}</p>
+    <p><b>Ниво на класа:</b> ${meta.level}</p>
+    <p><b>Продължителност:</b> ${meta.duration}</p>
+    <p><b>Бележки:</b> ${meta.notes || "Няма допълнителни бележки."}</p>
+    <p><b>Подход за класа:</b> ${getGradeSupport(meta.grade)}</p>
+    <h3>1. Входно ниво</h3><p>${data.entryCheck}</p>
+    <h3>2. Мотивация</h3><p>${data.motivation}</p>
+    <h3>3. Представяне / ход на урока</h3><p>${data.explanation}</p>
+    <h3>4. Въпроси към учениците</h3><ul>${data.questions.map(q=>`<li>${q}</li>`).join("")}</ul>
+    <h3>5. Работа в клас</h3><ul>${data.tasks.map(t=>`<li>${t}</li>`).join("")}</ul>
+    <h3>6. Практическа работа</h3><p>${data.practical}</p>
+    <h3>7. Диференциране според нивото</h3><p>${getLevelSupport(meta.level)}</p>
+    <h3>8. Обобщение</h3><p>${data.summary}</p>
+    <h3>9. Домашна работа</h3><ul>${data.homework.map(h=>`<li>${h}</li>`).join("")}</ul>
+    <h3>10. Очаквани резултати</h3><ul>${data.results.map(r=>`<li>${r}</li>`).join("")}</ul>
+  </div>`;
+}
+
+function generateLesson(){
+  if(!subjectPrompt()) return;
+  const v1 = buildLessonVariant(1), v2 = buildLessonVariant(2), v3 = buildLessonVariant(3);
+  document.getElementById("output").innerHTML = renderLessonVariant(v1)+renderLessonVariant(v2)+renderLessonVariant(v3);
+}
+
+function generateTest(){
+  if(!subjectPrompt()) return;
+  const {subject, grade, topic} = getVals();
+  const html = `<h2>Тест – ${subject}</h2>
+    <p><b>Клас:</b> ${grade}</p><p><b>Тема:</b> ${topic}</p>
+    <p><b>Максимален брой точки:</b> 12</p>
+    <h3>Част A – Изберете верния отговор</h3>
+    <ol>
+      <li>Кой отговор е свързан с темата „${topic}“?<br>A) Отговор А<br>Б) Отговор Б<br>В) Отговор В</li>
+      <li>Кое твърдение е вярно?<br>A) Твърдение А<br>Б) Твърдение Б<br>В) Твърдение В</li>
+      <li>Кой пример е подходящ?<br>A) Пример А<br>Б) Пример Б<br>В) Пример В</li>
+    </ol>
+    <h3>Част Б – Кратък свободен отговор</h3>
+    <ol><li>Дайте кратък отговор по темата.</li><li>Посочете пример.</li><li>Обяснете с едно изречение.</li></ol>
+    <h3>Ключ с отговори</h3><ol><li>Отговор А</li><li>Твърдение Б</li><li>Пример В</li></ol>`;
+  document.getElementById("output").innerHTML = html;
+}
+
+function generateProject(){
+  if(!subjectPrompt()) return;
+  const {subject, grade, topic} = getVals();
+  document.getElementById("output").innerHTML = `<h2>Проектна работа – ${subject}</h2>
+    <p><b>Клас:</b> ${grade}</p><p><b>Тема:</b> ${topic}</p>
+    <h3>Цел на проекта</h3><p>Учениците да проучат темата „${topic}“, да я представят по разбираем начин и да я свържат с реалния живот.</p>
+    <h3>Етапи на работа</h3><ol><li>Проучване на информация</li><li>Подбор на най-важното</li><li>Оформяне на крайния продукт</li><li>Представяне пред класа</li></ol>
+    <h3>Критерии за оценяване</h3><ul><li>Точност на съдържанието</li><li>Подреденост и яснота</li><li>Креативност</li><li>Умение за представяне</li></ul>`;
+}
+
+function generateWorksheet(){
+  if(!subjectPrompt()) return;
+  const {subject, grade, topic} = getVals();
+  document.getElementById("output").innerHTML = `<h2>Работен лист – ${subject}</h2>
+    <p><b>Клас:</b> ${grade}</p><p><b>Тема:</b> ${topic}</p>
+    <p><b>Име на ученик:</b> __________________________</p>
+    <h3>Задачи</h3>
+    <ol><li>Задача 1 по темата.</li><li>Задача 2 по темата.</li><li>Задача 3 по темата.</li><li>Кратък свободен отговор.</li><li>Пример от практиката.</li></ol>
+    <h3>Самооценка</h3><ul><li>Разбрах темата добре</li><li>Имам нужда от още упражнения</li><li>Мога да обясня на друг</li></ul>`;
+}
+
+function smartGenerate(){
+  if(currentTab === "lesson") generateLesson();
+  if(currentTab === "test") generateTest();
+  if(currentTab === "project") generateProject();
+  if(currentTab === "worksheet") generateWorksheet();
+}
+
+function copyOutput(){
+  const text = document.getElementById("output").innerText.trim();
+  if(!text){ alert("Първо генерирай съдържание."); return; }
+  navigator.clipboard.writeText(text).then(() => alert("Копирано."));
+}
+
+function downloadWord(){
+  const content = document.getElementById("output").innerHTML.trim();
+  if(!content){ alert("Първо генерирай съдържание."); return; }
+  const {subject, topic} = getVals();
+  const htmlDoc = `<!DOCTYPE html><html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><meta name="ProgId" content="Word.Document"><style>@page { size:A4; margin:2.5cm } body{font-family:Arial,sans-serif;font-size:12pt;line-height:1.5;color:#000}</style></head><body><h1>Умен генератор PRO+</h1>${content}</body></html>`;
+  const blob = new Blob(['\ufeff', htmlDoc], {type:'application/msword'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = (`${subject || 'generator'}_${topic || 'tema'}`).replace(/[^\p{L}\p{N}\s._-]/gu,'').trim().replace(/\s+/g,'_') + '.doc';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+</script>
+</body>
+</html>
