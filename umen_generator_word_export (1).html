@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Генератор с Word export</title>
+<style>
+  :root{
+    --bg:#f4f6fb; --card:#ffffff; --text:#1f2937; --muted:#6b7280;
+    --line:#dbe3f0; --accent:#2f5bea; --accent2:#1e40af; --ok:#0f766e;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+  .wrap{max-width:1100px;margin:24px auto;padding:0 16px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 24px rgba(31,41,55,.06);padding:20px;margin-bottom:18px}
+  h1{margin:0 0 6px;font-size:28px}
+  .sub{color:var(--muted);margin-bottom:18px}
+  .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+  label{display:block;font-weight:700;margin-bottom:6px}
+  input,select,textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:11px 12px;font-size:15px;background:#fff;color:var(--text)}
+  textarea{min-height:120px;resize:vertical}
+  .btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+  button{border:none;border-radius:12px;padding:11px 16px;font-size:15px;font-weight:700;cursor:pointer}
+  .primary{background:var(--accent);color:#fff}
+  .primary:hover{background:var(--accent2)}
+  .secondary{background:#eef2ff;color:var(--accent2)}
+  .success{background:#ecfeff;color:var(--ok)}
+  .output{white-space:pre-wrap;background:#fbfcff;border:1px solid var(--line);border-radius:14px;padding:16px;min-height:220px;line-height:1.55}
+  .hint{font-size:13px;color:var(--muted);margin-top:6px}
+  .section-title{font-size:20px;margin:0 0 14px}
+  @media (max-width:800px){.grid,.grid-3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <h1>Умен генератор на становище и доклад</h1>
+    <div class="sub">Попълваш полетата, натискаш „Генерирай“ и после можеш директно да изтеглиш Word файл.</div>
+
+    <div class="grid-3">
+      <div>
+        <label>Име на ученик</label>
+        <input id="studentName" placeholder="напр. Калин Стойчев Асенов">
+      </div>
+      <div>
+        <label>Клас</label>
+        <input id="studentClass" placeholder="напр. 5.">
+      </div>
+      <div>
+        <label>Дата</label>
+        <input id="docDate" placeholder="напр. 27.03.2026 г.">
+      </div>
+    </div>
+
+    <div class="grid">
+      <div>
+        <label>Поведение</label>
+        <select id="behavior">
+          <option>спокоен и неконфликтен</option>
+          <option>дисциплиниран</option>
+          <option>с променливо поведение</option>
+          <option>импулсивен</option>
+        </select>
+      </div>
+      <div>
+        <label>Посещаемост</label>
+        <select id="attendance">
+          <option>редовно посещава учебните занятия</option>
+          <option>посещава учебните занятия с отделни отсъствия</option>
+          <option>има нередовна посещаемост</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div>
+        <label>Успех / учебно представяне</label>
+        <select id="achievement">
+          <option>успехът му е слаб и има нужда от допълнителна работа</option>
+          <option>постига средни резултати и има нужда от насочване</option>
+          <option>постига добри резултати</option>
+          <option>показва неравномерни резултати</option>
+        </select>
+      </div>
+      <div>
+        <label>Участие в час</label>
+        <select id="participation">
+          <option>участва по-скоро пасивно</option>
+          <option>участва колебливо</option>
+          <option>участва активно</option>
+          <option>работи по-уверено при оказана подкрепа</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div>
+        <label>Отношения със съучениците</label>
+        <select id="social">
+          <option>поддържа добри взаимоотношения със съучениците</option>
+          <option>взаимоотношенията му със съучениците са добри</option>
+          <option>има променливи взаимоотношения със съучениците</option>
+        </select>
+      </div>
+      <div>
+        <label>Нужда от подкрепа</label>
+        <select id="support">
+          <option>има нужда от допълнителни обяснения, упражнения и насърчаване</option>
+          <option>има нужда от индивидуален подход и системна подкрепа</option>
+          <option>има нужда от затвърждаване на знанията и увереност в собствените възможности</option>
+          <option>се справя самостоятелно с минимално насочване</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="margin-top:14px">
+      <label>Допълнителни бележки</label>
+      <textarea id="notes" placeholder="Напр. не проявява агресия, спазва правилата, концентрира се трудно..."></textarea>
+      <div class="hint">Незадължително поле. Ако го попълниш, текстът ще стане още по-персонализиран.</div>
+    </div>
+
+    <div class="btns">
+      <button class="primary" onclick="generateDocs()">Генерирай</button>
+      <button class="secondary" onclick="copyText('statementOut')">Копирай становището</button>
+      <button class="secondary" onclick="copyText('reportOut')">Копирай доклада</button>
+      <button class="success" onclick="downloadWord()">Изтегли Word файл</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 class="section-title">Становище</h2>
+    <div id="statementOut" class="output"></div>
+  </div>
+
+  <div class="card">
+    <h2 class="section-title">Доклад от класен ръководител</h2>
+    <div id="reportOut" class="output"></div>
+  </div>
+</div>
+
+<script>
+function val(id){ return document.getElementById(id).value.trim(); }
+function esc(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function nl2br(s){
+  return esc(s).replace(/\n/g,'<br>');
+}
+
+function buildTexts(){
+  const name = val('studentName') || '................................';
+  const cls = val('studentClass') || '.....';
+  const date = val('docDate') || '....................';
+  const behavior = val('behavior');
+  const attendance = val('attendance');
+  const achievement = val('achievement');
+  const participation = val('participation');
+  const social = val('social');
+  const support = val('support');
+  const notes = val('notes');
+
+  const addSentence = notes ? " Допълнително се отчита, че " + notes.replace(/\.$/, '') + "." : "";
+
+  const statement =
+`ОУ „Братя Миладинови“ – с. Склаве
+Изх. № …………………
+Дата: ${date}
+
+ДО
+ДСП – гр. Сандански
+Отдел „Закрила на детето“
+
+СТАНОВИЩЕ
+
+Относно: предоставяне на информация за ученик ${name}
+
+УВАЖАЕМИ ГОСПОЖИ И ГОСПОДА,
+
+Във връзка с предстоящ преглед на План за действие, Ви предоставяме информация относно образователното развитие, поведението и социалната адаптация на ученика ${name}, ученик в ${cls} клас.
+
+${name} е ${behavior} ученик, който ${attendance}. В училищна среда ${social}.${addSentence}
+
+В учебния процес ${participation}, като ${achievement}. Наблюдава се, че ${support}.
+
+От страна на училището се прилага последователна подкрепа чрез индивидуален подход в обучението, допълнителни разяснения, насърчаване и поддържане на връзка с родителя.
+
+Ученикът показва потенциал за развитие при системна и целенасочена работа в подкрепяща образователна среда.
+
+Считаме, че е необходимо да продължи работата в посока затвърждаване на учебния материал, повишаване на активността в учебния процес и изграждане на увереност в собствените възможности.
+
+С уважение,
+
+Директор: .................................
+(Запрян Кандиларов)
+
+Печат:`;
+
+  const report =
+`ДОКЛАД ОТ КЛАСЕН РЪКОВОДИТЕЛ
+
+От класен ръководител на ${cls} клас
+Относно: ученик ${name}
+
+${name} е ${behavior} ученик, който ${attendance} и ${social}.${addSentence}
+
+В учебния процес ${participation}. Към настоящия момент ${achievement}. Налице е необходимост от допълнителна подкрепа, тъй като ${support}.
+
+В работата с ученика се прилагат индивидуален подход, допълнителни разяснения, насърчаване при положителни прояви и регулярна комуникация с родителя.
+
+Наблюдава се възможност за постепенно развитие при системна подкрепа и спокойна работна среда.
+
+Считам, че е необходимо да се продължи работата в следните направления:
+– затвърждаване на учебния материал;
+– повишаване на активността в час;
+– развитие на увереност и самостоятелност.
+
+Дата: ${date}
+Класен ръководител: .................................
+Подпис: .................................`;
+
+  return {statement, report, name};
+}
+
+function generateDocs(){
+  const {statement, report} = buildTexts();
+  document.getElementById('statementOut').textContent = statement;
+  document.getElementById('reportOut').textContent = report;
+}
+
+function copyText(id){
+  const text = document.getElementById(id).textContent.trim();
+  if(!text){ alert('Първо натисни „Генерирай“.'); return; }
+  navigator.clipboard.writeText(text).then(() => alert('Копирано.'));
+}
+
+function downloadWord(){
+  const {statement, report, name} = buildTexts();
+  document.getElementById('statementOut').textContent = statement;
+  document.getElementById('reportOut').textContent = report;
+
+  const htmlDoc = `<!DOCTYPE html>
+<html xmlns:o="urn:schemas-microsoft-com:office:office"
+      xmlns:w="urn:schemas-microsoft-com:office:word"
+      xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta charset="utf-8">
+<meta name="ProgId" content="Word.Document">
+<meta name="Generator" content="ChatGPT">
+<style>
+  @page { size: A4; margin: 2.5cm 2cm 2.5cm 3cm; }
+  body { font-family: Arial, sans-serif; font-size: 12pt; line-height: 1.5; color: #000; }
+  .center { text-align: center; }
+  .title { font-weight: bold; font-size: 14pt; }
+  .doc-title { font-weight: bold; font-size: 13pt; text-align: center; margin: 18px 0 12px; }
+  .section { margin-top: 12px; }
+  .page-break { page-break-before: always; }
+</style>
+</head>
+<body>
+  <div class="center title">ОУ „Братя Миладинови“ – с. Склаве</div>
+  <div>Изх. № …………………</div>
+  <div>Дата: ${esc(val('docDate') || '....................')}</div>
+  <br>
+  <div>ДО</div>
+  <div>ДСП – гр. Сандански</div>
+  <div>Отдел „Закрила на детето“</div>
+
+  <div class="doc-title">СТАНОВИЩЕ</div>
+  <div>${nl2br(statement)}</div>
+
+  <div class="page-break"></div>
+  <div class="doc-title">ДОКЛАД ОТ КЛАСЕН РЪКОВОДИТЕЛ</div>
+  <div>${nl2br(report)}</div>
+</body>
+</html>`;
+
+  const blob = new Blob(['\ufeff', htmlDoc], {type:'application/msword'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  const safeName = (name && name !== '................................') ? name.replace(/[^\p{L}\p{N}\s.-]/gu,'').trim().replace(/\s+/g,'_') : 'stanovishte_i_doklad';
+  a.download = safeName + '.doc';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+</script>
+</body>
+</html>
